@@ -1,0 +1,76 @@
+SQL
+
+SELECT * FROM new_project.automobile_data;
+
+a. Convert all the ‘?’ values to NaN. Clean the data as per further requirement.
+
+UPDATE automobile_data SET `normalized-losses` = NULL
+WHERE `normalized-losses` = '?';
+
+b. Which company manufactured the most expensive car and at what price?
+
+SELECT make, price FROM automobile_data ORDER BY price DESC LIMIT 1;
+
+
+c. Calculate the maximum horsepower for each company.
+
+SELECT make, MAX(horsepower) FROM automobile_data GROUP BY make;
+
+
+d. What is the total count of cars manufactured by each company?
+
+SELECT make, COUNT(*) FROM automobile_data GROUP BY make;
+
+e. Based on new regulations, companies decided to change the prices of the car. The
+new update price is calculated as - if the engine is in front, price will be same else if
+the engine is in rear, price will be doubled. Add a new column with the updated prices.
+
+ALTER TABLE automobile_data ADD COLUMN updated_price FLOAT;
+UPDATE automobile_data SET updated_price = price where `engine-location` = 'front';
+ UPDATE automobile_data SET updated_price =  price *2 where `engine-location` = 'rear';
+
+
+f. Sort the dataframe according to car and price combined.
+
+SELECT * FROM automobile_data ORDER BY make, price;
+
+
+g. Create a new column which stores the number of doors in a car as integers.
+
+ALTER TABLE automobile_data ADD COLUMN num_doors_int INT;
+UPDATE automobile_data SET num_doors_int = 2 where `num-of-doors` = 'two';
+UPDATE automobile_data SET num_doors_int =  4 where `num-of-doors` = 'four';
+
+h. Calculate which variable/feature/attribute is impacting the price of the car the most. 
+
+select avg(price) from automobile_data;
+select mode(price) from automobile_data;
+select median(price) from automobile_data
+select sum(price) from automobile_data;
+select stdev(price) from automobile_data;
+select variance(price) automobile_data;
+
+i. Concatenate the two data frames given below firstly row wise and secondly column 
+wise. (3 Marks) 
+GermanCars = {'Company': ['Ford', 'Mercedes', 'BMV', 'Audi'], 'Price': [23845, 
+171995, 135925 , 71400]} 
+japaneseCars = {'Company': ['Toyota', 'Honda', 'Nissan', 'Mitsubishi '], 'Price': [29995, 
+23600, 61500 , 58900]} 
+
+CREATE TABLE GermanCars (Company VARCHAR(50),Price INT);
+CREATE TABLE JapaneseCars (Company VARCHAR(50),Price INT);
+
+INSERT INTO GermanCars (Company, Price) VALUES
+('Ford', 23845),('Mercedes', 171995),('BMV', 135925),('Audi', 71400);
+INSERT INTO JapaneseCars (Company, Price) VALUES
+('Toyota', 29995),('Honda', 23600),('Nissan', 61500),('Mitsubishi', 58900);
+
+select * from GermanCars;
+select * from JapaneseCars;
+
+SELECT * FROM GermanCars UNION ALL SELECT * FROM JapaneseCars;
+
+
+j.Save the first and last 15 records of the dataframe in a separate excel sheet. 
+
+SELECT * FROM automobile_data limit 15;
